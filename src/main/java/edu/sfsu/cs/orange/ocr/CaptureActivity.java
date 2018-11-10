@@ -1407,7 +1407,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
       // prepare the Request
       JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.POST,
-              "http://teamagilevm.eastasia.cloudapp.azure.com:8080/emailer/sendmail.php",
+              "Personal URL/emailer/sendmail.php",
               jsonParams,
               new Response.Listener<JSONObject>()
               {
