@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2008 ZXing authors
- * Copyright 2011 Robert Theis
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package edu.sfsu.cs.orange.ocr;
 
@@ -77,13 +62,7 @@ import edu.sfsu.cs.orange.ocr.language.LanguageCodeHelper;
 import edu.sfsu.cs.orange.ocr.language.TranslateAsyncTask;
 import edu.sfsu.cs.orange.ocr.model.ServiceAndBillingInfo;
 
-/**
- * This activity opens the camera and does the actual scanning on a background thread. It draws a
- * viewfinder to help the user place the text correctly, shows feedback as the image processing
- * is happening, and then overlays the results when a scan is successful.
- * 
- * The code for this class was adapted from the ZXing project: http://code.google.com/p/zxing/
- */
+
 public final class CaptureActivity extends Activity implements SurfaceHolder.Callback, 
   ShutterButton.OnShutterButtonListener {
 
@@ -390,16 +369,11 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
   }
   
-  /** 
-   * Method to start or restart recognition after the OCR engine has been initialized,
-   * or after the app regains focus. Sets state related settings and OCR engine parameters,
-   * and requests camera initialization.
-   */
+ 
   void resumeOCR() {
     Log.d(TAG, "resumeOCR()");
     
-    // This method is called when Tesseract has already been successfully initialized, so set 
-    // isEngineReady = true here.
+   
     isEngineReady = true;
     
     isPaused = false;
@@ -414,8 +388,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     if (hasSurface) {
-      // The activity was paused but not stopped, so the surface still exists. Therefore
-      // surfaceCreated() won't be called, so init the camera here.
+    
       initCamera(surfaceHolder);
     }
   }
@@ -662,13 +635,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         showErrorMessage("Error", "Required external storage (such as an SD card) is full or unavailable.");
       }
       
-      //        } else {
-      //          // For Android 2.1 and below, explicitly give the path as, for example,
-      //          // "/mnt/sdcard/Android/data/edu.sfsu.cs.orange.ocr/files/"
-      //          return new File(Environment.getExternalStorageDirectory().toString() + File.separator + 
-      //                  "Android" + File.separator + "data" + File.separator + getPackageName() + 
-      //                  File.separator + "files" + File.separator);
-      //        }
     
     } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
     	// We can only read the media
@@ -683,13 +649,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     return null;
   }
 
-  /**
-   * Requests initialization of the OCR engine with the given parameters.
-   * 
-   * @param storageRoot Path to location of the tessdata directory to use
-   * @param languageCode Three-letter ISO 639-3 language code for OCR 
-   * @param languageName Name of the language for OCR, for example, "English"
-   */
+ 
   private void initOcrEngine(File storageRoot, String languageCode, String languageName) {    
     isEngineReady = false;
     
@@ -741,8 +701,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       handler.quitSynchronously();     
     }
 
-    // Disable continuous mode if we're using Cube. This will prevent bad states for devices 
-    // with low memory that crash when running OCR with Cube, and prevent unwanted delays.
     if (ocrEngineMode == TessBaseAPI.OEM_CUBE_ONLY || ocrEngineMode == TessBaseAPI.OEM_TESSERACT_CUBE_COMBINED) {
       Log.d(TAG, "Disabling continuous preview");
       isContinuousModeActive = false;
@@ -756,12 +714,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       .execute(storageRoot.toString());
   }
   
-  /**
-   * Displays information relating to the result of OCR, and requests a translation if necessary.
-   * 
-   * @param ocrResult Object representing successful OCR results
-   * @return True if a non-null result was received for OCR
-   */
+ 
   boolean handleOcrDecode(OcrResult ocrResult) {
     lastResult = ocrResult;
     
@@ -827,11 +780,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     return true;
   }
   
-  /**
-   * Displays information relating to the results of a successful real-time OCR request.
-   * 
-   * @param ocrResult Object representing successful OCR results
-   */
+ 
   void handleOcrContinuousDecode(OcrResult ocrResult) {
    
     lastResult = ocrResult;
@@ -890,19 +839,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
   }
   
-  /**
-   * Given either a Spannable String or a regular String and a token, apply
-   * the given CharacterStyle to the span between the tokens.
-   * 
-   * NOTE: This method was adapted from:
-   *  http://www.androidengineer.com/2010/08/easy-method-for-formatting-android.html
-   * 
-   * <p>
-   * For example, {@code setSpanBetweenTokens("Hello ##world##!", "##", new
-   * ForegroundColorSpan(0xFFFF0000));} will return a CharSequence {@code
-   * "Hello world!"} with {@code world} in red.
-   * 
-   */
+ 
   private CharSequence setSpanBetweenTokens(CharSequence text, String token,
       CharacterStyle... cs) {
     // Start and end refer to the points where the span will apply
