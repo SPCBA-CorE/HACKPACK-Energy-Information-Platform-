@@ -1,8 +1,5 @@
 package edu.sfsu.cs.orange.ocr.model;
 
-/**
- * Created by serge.delossantos on 11/10/2018.
- */
 
 public class ServiceAndBillingInfo {
     public String ServiceIDNumber;
